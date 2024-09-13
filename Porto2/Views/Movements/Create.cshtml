@@ -1,0 +1,64 @@
+﻿@model Movements
+
+@{
+    ViewData["Title"] = "Cadastrar Movimentação";
+    var warningMessage = ViewData["WarningMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(warningMessage))
+{
+    <div id="warningAlert" class="alert alert-warning" role="alert">
+        @warningMessage
+    </div>
+}
+
+<div>
+    <div class="text-center">
+        <h1 class="display-4">Cadastro de Movimentações</h1>
+    </div>
+    <div>
+        <form asp-controller="Movements" asp-action="Create" method="post">
+            <div class="mb-3">
+                <label class="form-label">Container</label>
+                <select asp-for="ContainerId" asp-items="ViewBag.Containers" class="form-control" aria-label=".form-select-lg example">
+                    <option selected>Selecione o container</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tipo Movimentação</label>
+                <select asp-for="MovementType" class="form-control" aria-label=".form-select-lg example">
+                    <option value="">Selecione o tipo da movimentação</option>
+                    <option value="Embarque">Embarque</option>
+                    <option value="Descarga">Descarga</option>
+                    <option value="Gate In">Gate In</option>
+                    <option value="Gate Out">Gate Out</option>
+                    <option value="Reposicionamento">Reposicionamento</option>
+                    <option value="Pesagem">Pesagem</option>
+                    <option value="Scanner">Scanner</option>
+                </select>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Data Início</label>
+                    <input type="datetime-local" asp-for="StartDate" class="form-control" />
+                </div>
+                <div class="col">
+                    <label class="form-label">Data Fim</label>
+                    <input type="datetime-local" asp-for="EndDate" class="form-control" />
+                </div>
+            </div>
+            <input type="hidden" asp-for="Enabled" value="true" />
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <a asp-controller="Movements" asp-action="Index" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        var warningAlert = document.getElementById('warningAlert');
+        if (warningAlert) {
+            warningAlert.style.display = 'none';
+        }
+    }, 3000);
+</script>

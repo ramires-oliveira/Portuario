@@ -1,0 +1,71 @@
+﻿@model Container
+
+@{
+    ViewData["Title"] = "Cadastrar Container";
+    var warningMessage = ViewData["WarningMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(warningMessage))
+{
+    <div id="warningAlert" class="alert alert-warning" role="alert">
+        @warningMessage
+    </div>
+}
+
+<div>
+    <div class="text-center">
+        <h1 class="display-4">Cadastro de Containers</h1>
+    </div>
+    <div>
+        <form asp-controller="Containers" asp-action="Create" method="post">
+            <div class="mb-3">
+                <label class="form-label">Cliente</label>
+                <select asp-for="ClientId" asp-items="ViewBag.Clientes" class="form-control" aria-label=".form-select-lg example">
+                    <option value="">Selecione o cliente</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Número</label>
+                <input type="text" asp-for="Number" class="form-control" placeholder="Informe o número do container">
+                @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tipo</label>
+                <select asp-for="Type" class="form-control" aria-label=".form-select-lg example">
+                    <option value="">Selecione o Tipo do Container</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select asp-for="Status" class="form-control" aria-label="Status do Container">
+                    <option selected>Selecione o Status do Container</option>
+                    <option value="1">Cheio</option>
+                    <option value="2">Vazio</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Categoria</label>
+                <select asp-for="Category" class="form-control" aria-label="Categoria do Container">
+                    <option selected>Selecione a Categoria do Container</option>
+                    <option value="1">Importação</option>
+                    <option value="2">Expotação</option>
+                </select>
+            </div>
+            <input type="hidden" asp-for="Enabled" value="true" />
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <a asp-controller="Containers" asp-action="Index" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        var warningAlert = document.getElementById('warningAlert');
+        if (warningAlert) {
+            warningAlert.style.display = 'none';
+        }
+    }, 3000);
+</script>
+

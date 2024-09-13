@@ -1,0 +1,94 @@
+﻿@using Porto.Models.Enums;
+
+@model List<Movements>
+
+@{
+    ViewData["Title"] = "Listagem das Movimentações";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div id="successAlert" class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div id="errorAlert" class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+
+<div class="text-center">
+    <div>
+        <h1 class="display-4">Listagem das Movimentações</h1>
+    </div>
+    <div class="d-flex justify-content-start mb-3">
+        <a asp-controller="Movements" asp-action="Create" type="button" class="btn btn-success">Adicionar Movimentação</a>
+    </div>
+    <div>
+        @if (Model.Count() == 0)
+        {
+            <p>Nenhuma movimentação cadastrada.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Número Container</th>
+                        <th scope="col">Data Início</th>
+                        <th scope="col">Data Fim</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.MovementType</td>
+                            <td>@item.Container?.Number</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            @if (item.Enabled == true)
+                            {
+                                <td>Sim</td>
+                            }
+                            else
+                            {
+                                <td>Não</td>
+                            }
+                            <td>
+                                <a type="button" asp-route-id="@item.Id" asp-controller="Movements" asp-action="Edit" class="btn btn-primary mr-2">Editar</a>
+                                <a type="button" asp-route-id="@item.Id" asp-controller="Movements" asp-action="Delete" class="btn btn-danger">Excluir</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        var successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+    }, 3000);
+
+    setTimeout(function () {
+        var errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 3000);
+</script>

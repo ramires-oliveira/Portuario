@@ -1,0 +1,57 @@
+﻿@using Porto.Models.Enums;
+@model List<Movements>
+
+@{
+    ViewData["Title"] = "Relatório de Movimentações";
+}
+
+<div class="panel panel-default" id="fromHTMLtestdiv">
+    <div class="panel-heading">
+        <h5>Movimentações Agrupadas por Cliente</h5>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr class="bg-info">
+                        <th>Cliente</th>
+                        <th>Quantidade</th>
+                    </tr>
+                    @foreach (var item in Model.GroupBy(x => x.Container?.Client?.Name))
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@item.Count()</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="panel-heading">
+        <h5>Movimentações Agrupadas por Tipo de Movimentação</h5>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr class="bg-info">
+                        <th>Tipo Movimentação</th>
+                        <th>Quantidade</th>
+                    </tr>
+                    @foreach (var item in Model.GroupBy(x => x.MovementType))
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@item.Count()</td>
+                        </tr>
+                    }
+                </table>
+                <a type="button" asp-controller="Reports" asp-action="PrintReport" class="btn btn-primary mr-2">Gerar PDF</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model List<Client>
+
+@{
+    ViewData["Title"] = "Listagem de Clientes";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div id="successAlert" class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div id="errorAlert" class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+
+<div class="text-center">
+    <div>
+        <h1 class="display-4">Listagem de Clientes</h1>
+    </div>
+    <div class="d-flex justify-content-start mb-3">
+        <a asp-controller="Clients" asp-action="Create" type="button" class="btn btn-success">Adicionar Cliente</a>
+    </div>
+    <div>
+        @if (Model.Count() == 0)
+        {
+            <p>Nenhum cliente cadastrado.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">CNPJ</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Name</td>
+                            <td>@item.CNPJ</td>
+                            <td>@item.Enabled</td>
+                            <td>
+                                <a type="button" asp-route-id="@item.Id" asp-controller="Clients" asp-action="Edit" class="btn btn-primary mr-2">Editar</a>
+                                <a type="button" asp-route-id="@item.Id" asp-controller="Clients" asp-action="Delete" class="btn btn-danger">Excluir</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+</div>
+
+<script>
+    setTimeout(function () {
+        var successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+    }, 3000);
+
+    setTimeout(function () {
+        var errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 3000);
+</script>
+

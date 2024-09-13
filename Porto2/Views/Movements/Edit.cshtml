@@ -1,0 +1,64 @@
+﻿@model Movements
+
+@{
+    ViewData["Title"] = "Editar Movimentação";
+    var warningMessage = ViewData["WarningMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(warningMessage))
+{
+        <div id="warningAlert" class="alert alert-warning" role="alert">
+        @warningMessage
+        </div>
+}
+
+<div>
+    <div class="text-center">
+        <h1 class="display-4">Editar Movimentações</h1>
+    </div>
+    <div>
+        <form asp-controller="Movements" asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label class="form-label">Container</label>
+                <select asp-for="ContainerId" asp-items="ViewBag.Containers" class="form-control" aria-label=".form-select-lg example">
+                    <option selected>Selecione o container</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tipo Movimentação</label>
+                <select asp-for="MovementType" class="form-control" aria-label=".form-select-lg example">
+                    <option value="">Selecione o tipo da movimentação</option>
+                    <option value="Embarque">Embarque</option>
+                    <option value="Descarga">Descarga</option>
+                    <option value="Gate In">Gate In</option>
+                    <option value="Gate Out">Gate Out</option>
+                    <option value="Reposicionamento">Reposicionamento</option>
+                    <option value="Pesagem">Pesagem</option>
+                    <option value="Scanner">Scanner</option>
+                </select>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Data Início</label>
+                    <input type="datetime-local" asp-for="StartDate" class="form-control" placeholder="Informe a data do início da movimentação" />
+                </div>
+                <div class="col">
+                    <label class="form-label">Data Fim</label>
+                    <input type="datetime-local" asp-for="EndDate" class="form-control" placeholder="Informe a data do fim da movimentação" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Editar</button>
+            <a asp-controller="Movements" asp-action="Index" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        var warningAlert = document.getElementById('warningAlert');
+        if (warningAlert) {
+            warningAlert.style.display = 'none';
+        }
+    }, 3000);
+</script>
